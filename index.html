@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>tp calcul</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id = "container">
+            <div id="calculatrice">
+                <div id = "ecran_container"><p placeholder="0" id = "ecran"></p><span id = "cursor"></span></div>
+                <div id = "touches_container">
+                    <div id="number_container">
+                        <button class="number touche screenTouche">1</button>
+                        <button class="number touche screenTouche">2</button>
+                        <button class="number touche screenTouche">3</button>
+                        <button class="number touche screenTouche">4</button>
+                        <button class="number touche screenTouche">5</button>
+                        <button class="number touche screenTouche">6</button>
+                        <button class="number touche screenTouche">7</button>
+                        <button class="number touche screenTouche">8</button>
+                        <button class="number touche screenTouche">9</button>
+                        <button class="number touche screenTouche zero">0</button>
+                        <button class="number touche screenTouche">.</button>
+                    </div>
+                    <div id="operator_container">
+                        <button class = "operator touche backspace" onclick="backspace()">DEL</button>
+                        <button class = "operator touche clearScreen" onclick="clearScreen()">AC</button>
+                        <button class = "operator touche screenTouche">*</button>
+                        <button class = "operator touche screenTouche">/</button>
+                        <button class = "operator touche screenTouche plus">+</button>
+                        <button class = "operator touche screenTouche">-</button>
+                        <button class = "operator touche egale" onclick="evaluerOperation()">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let ecran = document.getElementById("ecran");
+            let cursor = document.getElementById("cursor");
+            function evaluerOperation() {
+                let operation = ecran.innerHTML;
+                try {
+                    const resultat = eval(operation);
+                    ecran.innerHTML = resultat;
+                } catch (error) {
+                    ecran.innerHTML = "ERROR";
+                }
+                cursor.style.display = "none";
+            }
+            let screenTouches = document.querySelectorAll('.screenTouche');
+            screenTouches.forEach(touche => {
+                touche.addEventListener('click',(event) => {
+                    if(cursor.style.display == "none"){
+                        clearScreen();
+                        cursor.style.display= "block";
+                    }
+                    checkOperation();
+                })
+            });
+            function clearScreen(){
+                ecran.innerHTML="";
+            }
+            function backspace(){
+                if(cursor.style.display != "none"){
+                    ecran.innerHTML = ecran.innerHTML.slice(0, -1);
+                }
+            }
+            function checkOperation(){
+                try{
+                    eval(ecran.innerText + event.target.innerText + "1");
+                    ecran.innerText = ecran.innerText + event.target.innerText;
+                } catch (error) {
+                    // mettre un message d'erreur
+                }
+            }
+        </script>
+    </body>
+    </html>
